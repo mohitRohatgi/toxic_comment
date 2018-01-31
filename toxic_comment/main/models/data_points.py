@@ -14,7 +14,7 @@ class DataPoints(object):
     """
     This method adds a data point into the class.
     """
-    def add(self, toxic_id, text, label:Label):
+    def add(self, toxic_id, text, label:Label=None):
         self.ids.append(toxic_id)
         self.id2text[toxic_id] = text
         self.id2label[toxic_id] = label

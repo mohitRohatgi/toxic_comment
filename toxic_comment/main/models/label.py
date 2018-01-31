@@ -1,5 +1,5 @@
 class Label(object):
-    def __init__(self, toxic,severe_toxic,obscene,threat,insult,identity_hate):
+    def __init__(self, toxic, severe_toxic, obscene, threat, insult, identity_hate):
         self.toxic = toxic
         self.severe_toxic = severe_toxic
         self.obscene = obscene
