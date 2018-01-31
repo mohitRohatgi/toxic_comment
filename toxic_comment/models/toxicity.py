@@ -16,11 +16,12 @@ class Toxicity(object):
 
     def __str__(self):
         output = ""
-        for id in self.ids:
-            output += id + self.delimiter + self._get_concatenated(id) + "\n"
+        for toxic_id in self.ids:
+            output += toxic_id + self.delimiter + self._get_concatenated(toxic_id) + "\n"
         return output
 
-    def _get_concatenated(self, id):
-        output = self.result[id].pop(0)
-        while len(self.result[id]) > 0:
-            output += self.delimiter + self.result[id].pop(0)
+    def _get_concatenated(self, toxic_id):
+        output = self.result[toxic_id].pop(0)
+        while len(self.result[toxic_id]) > 0:
+            output += self.delimiter + self.result[toxic_id].pop(0)
+        return output
