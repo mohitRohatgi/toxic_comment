@@ -1,4 +1,5 @@
-from toxic_comment.main.models import toxicity
+from toxic_comment.main.models.toxicity import Toxicity
+from toxic_comment.main.models.data_points import DataPoints
 
 
 class Classifier(object):
@@ -7,11 +8,11 @@ class Classifier(object):
     Given a training file path and delimiter, this method should train the model.
     Assumption is only one delimiter is used for separation of data
     """
-    def train(self, train_file_path, delimiter):
+    def train(self, train_data: DataPoints):
         raise NotImplementedError("training api not implemented")
 
     """
-    Given a test file path, compute the output and reeturn the object toxicity.
+    Given a test file path, computes the output and returns the object toxicity.
     """
-    def test(self, test_file_path) -> toxicity:
+    def test(self, test_file_path) -> Toxicity:
         raise NotImplementedError("testing api not implemented")

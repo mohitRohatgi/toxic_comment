@@ -4,15 +4,15 @@ class Toxicity(object):
         self.result = {}
         self.delimiter = delimiter
 
-    def add_result(self, id, toxic,severe_toxic,obscene,threat,insult,identity_hate):
+    def add_result(self, toxic_id, toxic,severe_toxic,obscene,threat,insult,identity_hate):
         assert toxic <= 1.0
         assert severe_toxic <= 1.0
         assert obscene <= 1.0
         assert threat <= 1.0
         assert insult <= 1.0
         assert identity_hate <= 1.0
-        self.ids.append(id)
-        self.result[id] = [toxic,severe_toxic,obscene,threat,insult,identity_hate]
+        self.ids.append(toxic_id)
+        self.result[toxic_id] = [toxic,severe_toxic,obscene,threat,insult,identity_hate]
 
     def __str__(self):
         output = ""
