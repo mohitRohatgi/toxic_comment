@@ -12,16 +12,16 @@ class Toxicity(object):
         assert insult <= 1.0
         assert identity_hate <= 1.0
         self.ids.append(toxic_id)
-        self.result[toxic_id] = [toxic,severe_toxic,obscene,threat,insult,identity_hate]
-
-    def __str__(self):
-        output = ""
-        for toxic_id in self.ids:
-            output += toxic_id + self.delimiter + self._get_concatenated(toxic_id) + "\n"
-        return output
+        self.result[toxic_id] = [toxic, severe_toxic, obscene, threat, insult, identity_hate]
 
     def _get_concatenated(self, toxic_id):
         output = self.result[toxic_id].pop(0)
         while len(self.result[toxic_id]) > 0:
             output += self.delimiter + self.result[toxic_id].pop(0)
+        return output
+
+    def __str__(self):
+        output = ""
+        for toxic_id in self.ids:
+            output += toxic_id + self.delimiter + self._get_concatenated(toxic_id) + "\n"
         return output
