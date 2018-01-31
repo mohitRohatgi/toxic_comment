@@ -1,4 +1,4 @@
-from toxic_comment.models import toxicity
+from toxic_comment.main.models import toxicity
 
 
 class Classifier(object):
