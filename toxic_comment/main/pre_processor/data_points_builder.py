@@ -11,7 +11,10 @@ class DataPointsBuilder(object):
     def build_and_get_train_data_points(self, file_path) -> DataPoints:
         with open(file_path, 'r') as train_file:
             train_file.readline()
-            for line in train_file.readlines():
+            lines = train_file.readlines()
+            current = 0
+            while current < len(lines):
+                line, current = self._get_line(lines, current)
                 split_line = line.split(self.delimiter)
                 toxic_id = split_line.pop(0)
                 label = self._get_label(split_line)
@@ -19,7 +22,7 @@ class DataPointsBuilder(object):
                 self.train_data_points.add(toxic_id, text, label)
         return self.train_data_points
 
-    def build_and_get_test_data_points(self, file_path):
+    def build_and_get_test_data_points(self, file_path) -> DataPoints:
         with open(file_path, 'r') as test_file:
             test_file.readline()
             for line in test_file.readlines():
@@ -45,3 +48,14 @@ class DataPointsBuilder(object):
         severe_toxic = int(split_line.pop())
         toxic = int(split_line.pop())
         return Label(toxic, severe_toxic, obscene, threat, insult, identity_hate)
+
+    def _get_line(self, lines, current):
+        line = lines[current]
+        while True:
+            split_line = line.split(self.delimiter)
+            try:
+                self._get_label(split_line)
+                return line, current + 1
+            except:
+                current += 1
+                line += lines[current]
