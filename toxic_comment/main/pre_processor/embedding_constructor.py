@@ -25,8 +25,8 @@ class EmbeddingConstructor:
         self.id2Word = None
         self.embed_matrix = None
         self.unknown = 'unk'
+        self.embedding = None
         self._load_vocab_dicts_and_embed_matrix()
-        self.embedding = self._load_embedding()
 
     def _get_paths(self):
         with open(self._get_abs_path("resources/paths.yml"), "r") as stream:
@@ -37,6 +37,13 @@ class EmbeddingConstructor:
 
     def _get_abs_path(self, path):
         return self.root_path + path
+
+    def _load_vocab_dicts_and_embed_matrix(self):
+        self._load_embedding()
+        if self._vocab_dicts_and_matrix_created():
+            self._load_vocab_and_matrix()
+        else:
+            self._build_and_save_vocab_and_matrix()
 
     def _load_embedding(self):
         embedding = {}
@@ -49,23 +56,42 @@ class EmbeddingConstructor:
 
         return embedding
 
-    def _load_vocab_dicts_and_embed_matrix(self):
-        if self._vocab_dicts_and_matrix_created():
-            self._load_vocab_and_matrix()
-        else:
-            self._build_and_save_vocab_and_matrix()
-
-    def _build_and_save_vocab(self):
-        pass
-
     def _vocab_dicts_and_matrix_created(self):
         return isfile(self.word2Id_path) and isfile(self.id2Word_path) and isfile(self.embed_matrix_path)
 
     def _load_vocab_and_matrix(self):
-        self.word2Id = pickle.load(self.word2Id_path)
-        self.id2Word = pickle.load(self.id2Word_path)
-        self.embed_matrix = pickle.load(self.embed_matrix_path)
+        word2Id_file = open(self.word2Id_path, "r")
+        self.word2Id = pickle.load(word2Id_file)
+        word2Id_file.close()
+
+        id2Word_file = open(self.id2Word_path, "r")
+        self.id2Word = pickle.load(id2Word_file)
+        id2Word_file.close()
+
+        embedding_matrix_file = open(self.embed_matrix_path)
+        self.embed_matrix = pickle.load(embedding_matrix_file)
+        embedding_matrix_file.close()
+
         assert (self.word2Id is not None and self.id2Word is not None and self.embed_matrix is not  None)
 
     def _build_and_save_vocab_and_matrix(self):
-        pass
+        self.embed_matrix = np.zeros((len(self.embedding.keys()), len(self.embedding[self.embedding.keys()[0]])))
+        for word_id, word in self.embedding.keys():
+            self.word2Id[word] = word_id
+            self.id2Word[word_id] = word
+            self.embed_matrix[word_id] = self.embed_matrix[word]
+
+        self._save_vocab_and_matrix()
+
+    def _save_vocab_and_matrix(self):
+        wor2Id_file = open(self.word2Id_path, "w")
+        pickle.dump(self.word2Id, wor2Id_file)
+        wor2Id_file.close()
+
+        id2Word_file = open(self.id2Word_path, "w")
+        pickle.dump(self.id2Word, id2Word_file)
+        id2Word_file.close()
+
+        embedding_matrix_file = open(self.embed_matrix_path, "w")
+        pickle.dump(self.embed_matrix, embedding_matrix_file)
+        embedding_matrix_file.close()
