@@ -5,3 +5,4 @@
 *.csv#
 *.txt
 *.javac
+venv/
