@@ -6,3 +6,4 @@
 *.txt
 *.javac
 venv/
+**DS_Store
