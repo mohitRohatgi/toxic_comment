@@ -5,10 +5,11 @@ class Config(object):
     instantiation.
     """
     batch_size = 64
-    embed_size = 50
-    hidden_size = 100
     num_steps = 10
     max_epochs = 16
     early_stopping = 2
     dropout = 0.9
+    max_seq_length = None
+    vocab_size = None
+    embedding_size = None
     lr = 0.001
