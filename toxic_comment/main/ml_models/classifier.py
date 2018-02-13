@@ -1,3 +1,4 @@
+from toxic_comment.main.config.config import Config
 from toxic_comment.main.models.toxicity import Toxicity
 from toxic_comment.main.models.data_points import DataPoints
 
@@ -7,7 +8,7 @@ class Classifier(object):
     """
     This api builds the model architecture.
     """
-    def build_model_architecture(self):
+    def build_model_architecture(self, config: Config):
         raise NotImplementedError("model architecture not implemented.")
 
     """
