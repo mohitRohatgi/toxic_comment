@@ -1,7 +1,9 @@
 import yaml
 import numpy as np
-from os.path import isfile
+import os
 import pickle
+
+from toxic_comment.definitions import ROOT_DIR
 
 """
 embed path : embeddings file path. eg. glove vectors
@@ -14,7 +16,7 @@ embedding matrix: embedding matrix constructed from embeddings
 class EmbeddingConstructor:
     def __init__(self):
         self.paths = self._get_paths()
-        self.root_path = '../../'
+        self.root_path = ROOT_DIR
         self.embed_path = self.paths['embed_path']
         self.train_path = self._get_abs_path(self.paths['train_path'])
         self.test_path = self._get_abs_path(self.paths['test_path'])
@@ -43,7 +45,7 @@ class EmbeddingConstructor:
                 raise RuntimeWarning("glove vectors not found or wrong path provided.", exc)
 
     def _get_abs_path(self, path):
-        return self.root_path + path
+        return os.path.join(self.root_path, path)
 
     def _load_embedding(self):
         embedding = {}
@@ -57,7 +59,8 @@ class EmbeddingConstructor:
         return embedding
 
     def _vocab_dicts_and_matrix_created(self):
-        return isfile(self.word2Id_path) and isfile(self.id2Word_path) and isfile(self.embed_matrix_path)
+        return os.path.isfile(self.word2Id_path) and os.path.isfile(self.id2Word_path) and \
+               os.path.isfile(self.embed_matrix_path)
 
     def _load_vocab_and_matrix(self):
         word2Id_file = open(self.word2Id_path, "r")
@@ -84,13 +87,13 @@ class EmbeddingConstructor:
         self._save_vocab_and_matrix()
 
     def _save_vocab_and_matrix(self):
-        wor2Id_file = open(self.word2Id_path, "w")
-        pickle.dump(self.word2Id, wor2Id_file)
-        wor2Id_file.close()
+        word2_id_file = open(self.word2Id_path, "w")
+        pickle.dump(self.word2Id, word2_id_file)
+        word2_id_file.close()
 
-        id2Word_file = open(self.id2Word_path, "w")
-        pickle.dump(self.id2Word, id2Word_file)
-        id2Word_file.close()
+        id2_word_file = open(self.id2Word_path, "w")
+        pickle.dump(self.id2Word, id2_word_file)
+        id2_word_file.close()
 
         embedding_matrix_file = open(self.embed_matrix_path, "w")
         pickle.dump(self.embed_matrix, embedding_matrix_file)

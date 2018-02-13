@@ -9,7 +9,7 @@ class DataPointsBuilder(object):
         self.delimiter = delimiter
 
     def build_and_get_train_data_points(self, file_path) -> DataPoints:
-        with open(file_path, 'r') as train_file:
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as train_file:
             train_file.readline()
             lines = train_file.readlines()
             current = 0
@@ -23,7 +23,7 @@ class DataPointsBuilder(object):
         return self.train_data_points
 
     def build_and_get_test_data_points(self, file_path) -> DataPoints:
-        with open(file_path, 'r') as test_file:
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as test_file:
             test_file.readline()
             for line in test_file.readlines():
                 split_line = line.split(self.delimiter)
