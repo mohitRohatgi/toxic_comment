@@ -3,14 +3,14 @@ import numpy as np
 
 
 class DataPoints(object):
-    def __init__(self):
+    def __init__(self, split_distribution=(0.6, 0.8, 1.0)):
         self.ids = []
         self.id2text = {}
         self.id2label = {}
         self.train = None
         self.test = None
         self.valid = None
-        self.split_distribution = (0.6, 0.8, 1.0)
+        self.split_distribution = split_distribution
 
     """
     This method adds a data point into the class.

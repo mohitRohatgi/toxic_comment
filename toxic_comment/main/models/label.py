@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Label(object):
     def __init__(self, toxic, severe_toxic, obscene, threat, insult, identity_hate):
         self.toxic = toxic
@@ -16,3 +19,6 @@ class Label(object):
                "insult: " + str(self.insult) + "," + "\n\t" + \
                "identity_hate: " + str(self.identity_hate) + \
                "\n}"
+
+    def to_array(self):
+        return np.array([self.toxic, self.severe_toxic, self.obscene, self.threat, self.insult, self.identity_hate])

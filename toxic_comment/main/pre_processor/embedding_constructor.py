@@ -26,7 +26,14 @@ class EmbeddingConstructor:
         self.embed_matrix = None
         self.unknown = 'unk'
         self.embedding = None
-        self._load_vocab_dicts_and_embed_matrix()
+
+    def construct(self):
+        self._load_embedding()
+        if self._vocab_dicts_and_matrix_created():
+            self._load_vocab_and_matrix()
+        else:
+            self._build_and_save_vocab_and_matrix()
+        return self
 
     def _get_paths(self):
         with open(self._get_abs_path("resources/paths.yml"), "r") as stream:
@@ -37,13 +44,6 @@ class EmbeddingConstructor:
 
     def _get_abs_path(self, path):
         return self.root_path + path
-
-    def _load_vocab_dicts_and_embed_matrix(self):
-        self._load_embedding()
-        if self._vocab_dicts_and_matrix_created():
-            self._load_vocab_and_matrix()
-        else:
-            self._build_and_save_vocab_and_matrix()
 
     def _load_embedding(self):
         embedding = {}
